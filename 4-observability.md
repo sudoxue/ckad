@@ -1,7 +1,8 @@
 # Observability (18%)
-
+Switch namespace to ckad-observability
 ## Defining a liveness probe
-1. Create a busybox pod that create a file "temp/healthy" remove it after 30 then sleep 600, check if it is alive every 5 seconds and make sure it start 5 seconds after the pod is created. using cat command
+1. Create a pod named liveness-exec, image k8s.gcr.io/busybox, the box will first create a file "tmp/healthy", then remove it after 30 then sleep 600, check if it is alive every 5 seconds and make sure it start 5 seconds after the pod is created. using touch and cat command.
+
 2. Create a busybox pod checks the HTTP and TCPSOcket for liveness
 
 
@@ -167,7 +168,7 @@ spec:
   - args:
     - /bin/sh
     - -c
-    - while true; do echo $(date) >> ~/tmp/curr-date.txt; sleep
+    - if [ ! -d ~/tmp ]; then mkdir -p ~/tmp; fi; while true; do echo $(date) >> ~/tmp/curr-date.txt; sleep 5; done;
       5; done;
     image: busybox
     name: failing-pod
