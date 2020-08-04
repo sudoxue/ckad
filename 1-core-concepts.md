@@ -25,6 +25,10 @@
 8. Run a temporary Pod using the image `busybox`, shell into it and run a `wget` command against the `nginx` Pod using port 80.
 9. Render the logs of Pod `mypod`.
 
+## edit a pod using replace
+
+1. Create a pod mypod2 using image nginx, when the pod is up and running change the image from nginx to nginx:latest
+
 
 <details><summary>Show Solution</summary>
 <p>

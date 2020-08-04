@@ -83,9 +83,11 @@ DB_USERNAME=postgres
 ## Configuring a Pod to Use a Secret
 
 1. Create a new Secret named `db-credentials` with the key/value pair `db-password=passwd`.
-2. Create a Pod named `backend` that defines uses the Secret as environment variable named `DB_PASSWORD` and runs the container with the image `nginx`.
-   and  mounts the secret "db-credentials" in a volume on path /etc/foo
-3. Shell into the Pod and print out the created environment variables. You should find `DB_PASSWORD` variable.
+2. Create a new Secret named `app-credentials` with the key/value pair `app-password=passwd`. 
+3. Create a Pod named `backend` that defines uses the Secret as environment variable named `DB_PASSWORD` and `APP_PASSWORD` runs the 
+   container with the image `nginx`. get the value of and mounts the secret "db-credentials" in a volume on path /etc/foo, get the key
+   value from secret key value from secret itself.
+4. Shell into the Pod and print out the created environment variables. You should find `DB_PASSWORD` `APP_PASSWORD` variable.
 
 <details><summary>Show Solution</summary>
 <p>
@@ -133,6 +135,29 @@ spec:
   restartPolicy: Never
 status: {}
 ```
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-env-pod
+spec:
+  containers:
+  - name: mycontainer
+    image: redis
+    env:
+      - name: SECRET_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: mysecret
+            key: username
+      - name: SECRET_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: mysecret
+            key: password
+  restartPolicy: Never
+
+  ```
 
 Create the Pod by pointing the `create` command to the YAML file.
 
@@ -261,7 +286,7 @@ status: {}
 
 ## Defining a Pod’s Resource Requirements
 
-Create a resource quota named `apps` under the namespace `rq-demo` using the following YAML definition in the file `rq.yaml`.
+Create a resource quota named `apps` under the namespace 'ckad-configuration using the following YAML definition in the file `rq.yaml`.
 
 ```yaml
 apiVersion: v1
@@ -288,7 +313,7 @@ $ kubectl create namespace rq-demo
 $ kubectl create -f rq.yaml --namespace=rq-demo
 resourcequota/app created
 $ kubectl describe quota --namespace=rq-demo
-Name:            app
+Name:            apSp
 Namespace:       rq-demo
 Resource         Used  Hard
 --------         ----  ----
