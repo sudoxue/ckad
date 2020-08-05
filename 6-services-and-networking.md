@@ -131,14 +131,14 @@ Commercial support is available at
 
 ## Restricting Access to and from a Pod
 
-Let's assume we are working on an application stack that defines three different layers: a frontend, a backend and a database. Each of the layers runs in a Pod. You can find the definition in the YAML file `app-stack.yaml`. The application needs to run in the namespace `app-stack`.
+Let's assume we are working on an application stack that defines three different layers: a frontend, a backend and a database. Each of the layers runs in a Pod. You can find the definition in the YAML file `ckad-service-network.yaml`. The application needs to run in the namespace `ckad-service-network`.
 
 ```yaml
 kind: Pod
 apiVersion: v1
 metadata:
   name: frontend
-  namespace: app-stack
+  namespace: ckad-service-network
   labels:
     app: todo
     tier: frontend
@@ -153,7 +153,7 @@ kind: Pod
 apiVersion: v1
 metadata:
   name: backend
-  namespace: app-stack
+  namespace: ckad-service-network
   labels:
     app: todo
     tier: backend
@@ -168,7 +168,7 @@ kind: Pod
 apiVersion: v1
 metadata:
   name: database
-  namespace: app-stack
+  namespace: ckad-service-network
   labels:
     app: todo
     tier: database
@@ -182,8 +182,8 @@ spec:
 ```
 
 1. Create the required namespace.
-2. Copy the Pod definition to the file `app-stack.yaml` and create all three Pods. Notice that the namespace has already been defined in the YAML definition.
-3. Create a network policy in the YAML file `app-stack-network-policy.yaml`.
+2. Copy the Pod definition to the file `ckad-service-network.yaml` and create all three Pods. Notice that the namespace has already been defined in the YAML definition.
+3. Create a network policy in the YAML file `ckad-service-network-network-policy.yaml`.
 4. The network policy should allow incoming traffic from the backend to the database but disallow incoming traffic from the frontend.
 5. Incoming traffic to the database should only be allowed on TCP port 3306 and no other port.
 
@@ -193,16 +193,16 @@ spec:
 Create the namespace 
 
 ```bash
-$ kubectl create namespace app-stack
-namespace/app-stack created
+$ kubectl create namespace ckad-service-network
+namespace/ckad-service-network created
 
-$ vim app-stack.yaml
-$ kubectl create -f app-stack.yaml
+$ vim ckad-service-network.yaml
+$ kubectl create -f ckad-service-network.yaml
 pod/frontend created
 pod/backend created
 pod/database created
 
-$ kubectl get pods --namespace app-stack
+$ kubectl get pods --namespace ckad-service-network
 NAME       READY   STATUS    RESTARTS   AGE
 backend    1/1     Running   0          22s
 database   1/1     Running   0          22s
@@ -215,8 +215,8 @@ The following definition ensure that all rules are fulfilled.
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: app-stack-network-policy
-  namespace: app-stack
+  name: ckad-service-network-network-policy
+  namespace: ckad-service-network
 spec:
   podSelector:
     matchLabels:
@@ -239,11 +239,11 @@ spec:
 Create the network policy.
 
 ```bash
-$ vim app-stack-network-policy.yaml
-$ kubectl create -f app-stack-network-policy.yaml
-$ kubectl get networkpolicy --namespace app-stack
+$ vim ckad-service-network-network-policy.yaml
+$ kubectl create -f ckad-service-network-network-policy.yaml
+$ kubectl get networkpolicy --namespace ckad-service-network
 NAME                       POD-SELECTOR             AGE
-app-stack-network-policy   app=todo,tier=database   5s
+ckad-service-network-network-policy   app=todo,tier=database   5s
 ```
 
 </p>
