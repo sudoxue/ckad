@@ -67,9 +67,12 @@ startupProbe:
 
 1. Create a new Pod named `hello` with the image `bonomat/nodejs-hello-world` that exposes the port 3000. Provide the name `nodejs-port` for the container port.
 2. Add a Readiness Probe that checks the URL path / on the port referenced with the name `nodejs-port` after a 2 seconds delay. You do not have to define the period interval.
+
 3. Add a Liveness Probe that verifies that the app is up and running every 8 seconds by checking the URL path / on the port referenced with the name `nodejs-port`. The probe should start with a 5 seconds delay.
 4. Shell into container and curl `localhost:3000`. Write down the output. Exit the container.
 5. Retrieve the logs from the container. Write down the output.
+
+6. Implement a liveness-probe which checks the container to be reachable on port 80. Initially the probe should wait 10, periodically 15 seconds. 
 
 <details><summary>Show Solution</summary>
 <p>
@@ -147,6 +150,18 @@ Magic happens on port 3000
 ```
 Sometimes, applications are temporarily unable to serve traffic. For example, an application might need to load large data or configuration files during startup, or depend on external services after startup. In such cases, you don't want to kill the application, but you don’t want to send it requests either. Kubernetes provides readiness probes to detect and mitigate these situations. A pod with containers reporting that they are not ready does not receive traffic through Kubernetes Services.
 
+```
+livenessProbe:                  # add
+
+          tcpSocket:                    # add
+
+            port: 80                    # add
+
+          initialDelaySeconds: 10       # add
+
+          periodSeconds: 15             # ad
+          
+```
 
 </p>
 </details>
@@ -168,7 +183,7 @@ spec:
   - args:
     - /bin/sh
     - -c
-    - if [ ! -d ~/tmp ]; then mkdir -p ~/tmp; fi; while true; do echo $(date) >> ~/tmp/curr-date.txt; sleep 5; done;
+    - Swhile true; do echo $(date) >> ~/tmp/curr-date.txt; sleep 5; done;
       5; done;
     image: busybox
     name: failing-pod
@@ -227,11 +242,32 @@ Thu May 9 23:59:06 UTC 2019
 Thu May 9 23:59:11 UTC 2019
 / # exit
 ```
-
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: failing-pod
+  name: failing-pod
+spec:
+  containers:
+  - args:
+    - /bin/sh
+    - -c
+    - if [ ! -d ~/tmp ]; then mkdir -p ~/tmp; fi; while true; do echo $(date) >> ~/tmp/curr-date.txt; sleep 5; done;
+      5; done;
+    image: busybox
+    name: failing-pod
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+```
 </p>
 </details>
 
-## Fixing a Misconfigured Pod
+## Create a po with Startup Probe
 
 1. Create a new Pod with the following probe with the following constrings.
 

@@ -11,7 +11,9 @@
 6. ckad-service-network
 7. ckad-state-persistent
 
+​
 
+export do="--dry-run=client -o yaml"
 ## Creating a Pod and Inspecting it
 
 1. Switch namespace to `ckad-core`.

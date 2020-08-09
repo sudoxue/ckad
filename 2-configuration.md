@@ -83,11 +83,12 @@ DB_USERNAME=postgres
 ## Configuring a Pod to Use a Secret
 
 1. Create a new Secret named `db-credentials` with the key/value pair `db-password=passwd`.
-2. Create a new Secret named `app-credentials` with the key/value pair `app-password=passwd`. 
+2. Create a new Secret named `app-credentials` with the key/value pair `app-password=passwd`. decode it 
 3. Create a Pod named `backend` that defines uses the Secret as environment variable named `DB_PASSWORD` and `APP_PASSWORD` runs the 
    container with the image `nginx`. get the value of and mounts the secret "db-credentials" in a volume on path /etc/foo, get the key
    value from secret key value from secret itself.
 4. Shell into the Pod and print out the created environment variables. You should find `DB_PASSWORD` `APP_PASSWORD` variable.
+
 
 <details><summary>Show Solution</summary>
 <p>
@@ -103,7 +104,24 @@ db-credentials    Opaque    1      26s
 $ kubectl run backend --image=nginx --restart=Never -o yaml --dry-run > pod.yaml
 ```
 
-Edit the YAML file and create an environment that reads the relevant key from the secret.
+Edit the YAM kubectl get secret my-secret -o yaml
+```
+apiVersion: v1
+data:
+  foo: YmFy
+kind: Secret
+metadata:
+  name: my-secret
+  namespace: default
+  uid: bae5b8d8-d01a-11e8-8972-42010a800002
+type: Opaque
+```
+Decode it:
+```
+$ echo "YmFy" | base64 --decode
+bar
+```
+L file and create an environment that reads the relevant key from the secret.
 
 ```yaml
 apiVersion: v1
@@ -387,7 +405,7 @@ requests.memory  200m  500m
 <p>
 
 First, create the service acccount and inspect it.
-
+Service Account is used only for FUCKing pod, not deplyment. 
 ```bash
 $ kubectl create serviceaccount backend-team
 serviceaccount/backend-team created

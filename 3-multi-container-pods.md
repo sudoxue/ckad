@@ -80,6 +80,13 @@ $ kubectl exec adapter --container=transformer -it -- /bin/sh
  4.0K	/root
 / # exit
 ```
+This particular section needs additional detail as these concepts are not covered that well via the tasks provided at kubernetes.io. Actually, the best coverage (for sidecars) is in the concepts section under logging architecture.
+
+    One or more containers running within a pod for enhancing the main container functionality (logger container, git synchronizer container); These are sidecar container
+
+    One or more containers running within a pod for accessing external applications/servers (Redis cluster, memcache cluster); These are called ambassador container
+
+    One or more containers running within a pod to allow access to application running within the container (Monitoring container); These are called as adapter containers-
 
 </p>
 </details>

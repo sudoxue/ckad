@@ -8,8 +8,8 @@
 3. Create a temporary Pods using the image `busybox` and run a `wget` command against the IP of the service.
 4. Change the service type so that the Pods can be reached from outside of the cluster.
 5. Run a `wget` command against the service from outside of the cluster.
-5. (Optional) Can you expose the Pods as a service without a deployment?
-
+6. (Optional) Can you expose the Pods as a service without a deployment?
+7. create a nodeport and expose the deploy myapp using command line
 <details><summary>Show Solution</summary>
 <p>
 
@@ -125,9 +125,15 @@ Commercial support is available at
 
 2019-05-10 16:32:35 (24.3 MB/s) - written to stdout [612/612]
 ```
+k expose deploy sunny --type NodePort --port 9367 --target-port 80 --name sun-service2 -n sun
 
 </p>
 </details>
+
+
+
+
+
 
 ## Restricting Access to and from a Pod
 
@@ -187,6 +193,73 @@ spec:
 4. The network policy should allow incoming traffic from the backend to the database but disallow incoming traffic from the frontend.
 5. Incoming traffic to the database should only be allowed on TCP port 3306 and no other port.
 
+<details><summary>Show Solution</summary>
+<p>
+
+Create the namespace 
+
+```bash
+$ kubectl create namespace ckad-service-network
+namespace/ckad-service-network created
+
+$ vim ckad-service-network.yaml
+$ kubectl create -f ckad-service-network.yaml
+pod/frontend created
+pod/backend created
+pod/database created
+
+$ kubectl get pods --namespace ckad-service-network
+NAME       READY   STATUS    RESTARTS   AGE
+backend    1/1     Running   0          22s
+database   1/1     Running   0          22s
+frontend   1/1     Running   0          22s
+```
+
+The following definition ensure that all rules are fulfilled.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ckad-service-network-network-policy
+  namespace: ckad-service-network
+spec:
+  podSelector:
+    matchLabels:
+      app: todo
+      tier: database
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: todo
+          tier: backend
+    ports:
+    - protocol: TCP
+      port: 3306
+```
+
+Create the network policy.
+
+```bash
+$ vim ckad-service-network-network-policy.yaml
+$ kubectl create -f ckad-service-network-network-policy.yaml
+$ kubectl get networkpolicy --namespace ckad-service-network
+NAME                       POD-SELECTOR             AGE
+ckad-service-network-network-policy   app=todo,tier=database   5s
+```
+
+</p>
+</details>
+
+
+
+1. The Sun needs a new deployment named sunny with 4 replicas of image nginx: 1.17.3-alpine in name space sun. The deployment and its pods should use the existing ServiceAccount sa-sun-deploy.
+Expose the deployyment interaally using a ClusterIP service named sun-srv on port 9999 the nginx container should run as default on port 80. Write a command, the management of team sum can execute to check all pods are running , into file /opt/course/p2/sumy_status_command.sh. thacommand shoul dbe kubectl. 
+2. 
 <details><summary>Show Solution</summary>
 <p>
 
