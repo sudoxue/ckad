@@ -183,7 +183,7 @@ spec:
   - args:
     - /bin/sh
     - -c
-    - Swhile true; do echo $(date) >> ~/tmp/curr-date.txt; sleep 5; done;
+    - while true; do echo $(date) >> ~/tmp/curr-date.txt; sleep 5; done;
       5; done;
     image: busybox
     name: failing-pod
