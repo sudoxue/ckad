@@ -1,5 +1,5 @@
 # Pod Design (20%)
-Switch namespace to ckad-pod-design
+Switch namespace to pluto
 ## Defining and Querying Labels and Annotations
 
 1. Create three different Pods with the names `frontend`, `backend` and `database` that use the image `nginx`.

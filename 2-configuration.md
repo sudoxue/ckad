@@ -2,7 +2,7 @@
 
 ## Configuring a Pod to Use a ConfigMap
 
-1. Switch namespace to `ckad-configuration`
+1. Switch namespace to `earth`
 
 2. Create a new file named `config.txt` with the following environment variables as key/value pairs on each line.
 
@@ -304,7 +304,7 @@ status: {}
 
 ## Defining a Pod’s Resource Requirements
 
-Create a resource quota named `apps` under the namespace 'ckad-configuration using the following YAML definition in the file `rq.yaml`.
+Create a resource quota named `apps` under the namespace 'earth using the following YAML definition in the file `rq.yaml`.
 
 ```yaml
 apiVersion: v1
@@ -339,7 +339,9 @@ pods             0     2
 requests.cpu     0     2
 requests.memory  0     500m
 ```
-
+```
+kubectl create quota my-quota --hard=cpu=1,memory=1G,pods=2,services=3,replicationcontrollers=2,resourcequotas=1,secrets=5,persistentvolumeclaims=1
+```
 Next, create the YAML file named `pod.yaml` with more requested memory than available in the quota.
 
 Create an nginx pod with requests cpu=100m,memory=256Mi and limits cpu=200m,memory=512Mi
@@ -354,12 +356,12 @@ kind: Pod
 metadata:
   creationTimestamp: null
   labels:
-    run: mypod
-  name: mypod
+    run: sunpod
+  name: sunpod
 spec:
   containers:
   - image: nginx
-    name: mypod
+    name: sunpod
     resources:
       requests:
         memory: "1G"
@@ -373,14 +375,14 @@ Create the Pod and observe the error message.
 
 ```bash
 $ kubectl create -f pod.yaml --namespace=rq-demo
-Error from server (Forbidden): error when creating "pod.yaml": pods "mypod" is forbidden: exceeded quota: app, requested: requests.memory=1G, used: requests.memory=0, limited: requests.memory=500m
+Error from server (Forbidden): error when creating "pod.yaml": pods "sunpod" is forbidden: exceeded quota: app, requested: requests.memory=1G, used: requests.memory=0, limited: requests.memory=500m
 ```
 
 Lower the memory settings to less than `500m` (e.g. `200m`) and create the Pod.
 
 ```bash
 $ kubectl create -f pod.yaml --namespace=rq-demo
-pod/mypod created
+pod/sunpod created
 $ kubectl describe quota --namespace=rq-demo
 Name:            app
 Namespace:       rq-demo

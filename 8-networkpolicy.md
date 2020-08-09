@@ -1,5 +1,5 @@
 # Network Policy (8%)
-## Switch namespace to `ckad-network-policy`
+## Switch namespace to `moon`
 ## Ingress and Egress policy
 
 

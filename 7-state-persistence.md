@@ -1,5 +1,5 @@
 # State Persistence (8%)
-## Switch namespace to `ckad-state-persistent`
+## Switch namespace to `saturn`
 ## Defining and Mounting a PersistentVolume
 
 1. Create a Persistent Volume named `pv`, access mode `ReadWriteMany`, storage class name `shared`, 512MB of storage capacity and the host path `/data/config`.

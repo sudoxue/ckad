@@ -1,5 +1,5 @@
 # Observability (18%)
-Switch namespace to ckad-observability
+Switch namespace to venus
 ## Defining a liveness probe
 1. Create a pod named liveness-exec, image k8s.gcr.io/busybox, the box will first create a file "tmp/healthy", then remove it after 30 then sleep 600, check if it is alive every 5 seconds and make sure it start 5 seconds after the pod is created. using touch and cat command.
 

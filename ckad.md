@@ -160,7 +160,7 @@ spec:
 
 ```
 NAME      TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)         AGE
-mypod     ClusterIP   10.0.170.211   <none>        80/TCP          27h
+sunpod     ClusterIP   10.0.170.211   <none>        80/TCP          27h
 nimabee   NodePort    10.0.226.87    <none>        487:32252/TCP   49m
 ```
 

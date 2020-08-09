@@ -1,6 +1,6 @@
 # Multi-Container Pods (10%)
 
-## Switch namespace to `ckad-configuration`
+## Switch namespace to `mars`
 
 ## Implementing the Adapter Pattern
 

@@ -1,5 +1,5 @@
 # Services & Networking (13%)
-## Switch namespace to `ckad-configuration`
+## Switch namespace to `pluto' 
 
 ## Routing Traffic to Pods from Inside and Outside of a Cluster
 
