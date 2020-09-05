@@ -88,5 +88,9 @@ This particular section needs additional detail as these concepts are not covere
 
     One or more containers running within a pod to allow access to application running within the container (Monitoring container); These are called as adapter containers-
 
+https://github.com/DhruvBansal86/EFK
+
+https://medium.com/@goldbrickdhruv/efk-elasticsearch-fluentd-kibana-on-aks-azure-kubernetes-service-158b770501a3
+
 </p>
 </details>
