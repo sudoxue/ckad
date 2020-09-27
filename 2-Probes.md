@@ -256,7 +256,6 @@ spec:
     - /bin/sh
     - -c
     - if [ ! -d ~/tmp ]; then mkdir -p ~/tmp; fi; while true; do echo $(date) >> ~/tmp/curr-date.txt; sleep 5; done;
-      5; done;
     image: busybox
     name: failing-pod
     resources: {}
