@@ -1,37 +1,10 @@
-
-
-
-# Core Concepts (13%)
-## Creating namespaces
-1. sun
-2. earth
-3. moon
-4. pluto
-5. saturn
-6. venus
-7. mars
-
-​
-
-export as="--dry-run=client -o yaml"
-export ad='--grace-period 0 --force'
-
-## Creating a Pod and Inspecting it
-
-1. Switch namespace to `sun`.
-2. In the namespace `sun` create a new Pod named `sunpod` with the image `nginx:2.3.5`. Expose the port 80. set
-   environment of the pod TESTER=Michael Xue
-3. Identify the issue with creating the container. Write down the root cause of issue in a file named `pod-error.txt`.
-4. Change the image of the Pod to `nginx:1.15.12`. and use jsonfile to check if image has been updated.
-5. List the Pod and ensure that the container is running.
-6. Log into the container and run the `ls` command. Write down the output. Log out of the container.
-7. Retrieve the IP address of the Pod `sunpod`.
-8. Run a temporary Pod using the image `busybox`, shell into it and run a `wget` command against the `nginx` Pod using port 80.
-9. Render the logs of Pod `sunpod`.
-
-## Edit a pod using replace
-
-1. Create a pod sunpod2 using image nginx, when the pod is up and running change the image from nginx to nginx:latest
+# Question 19
+run
+```
+kubectl config use-context k8s
+```
+Switch namespace to `sun`.
+## In the namespace `sun` create a new Pod named `sunpod` with the image `nginx:2.3.5`. Expose the port 80. set environment of the pod TESTER=Michael Xue. Identify the issue with creating the container. Write down the root cause of issue in a file named `pod-error.txt`.Change the image of the Pod to `nginx:1.15.12`. and use jsonfile to check if image has been updated. List the Pod and ensure that the container is running. Log into the container and run the `ls` command. Write down the output. Log out of the container.  Retrieve the IP address of the Pod `sunpod`.  Run a temporary Pod using the image `busybox`, shell into it and run a `wget` command against the `nginx` Pod using port 80. Render the logs of Pod `sunpod`.
 
 
 <details><summary>Show Solution</summary>
@@ -167,5 +140,36 @@ Manually remove the status field from the object configuration file.
 For subsequent object management, use replace exclusively.
 
 kubectl replace -f <kind>_<name>.yaml
+</p>
+</details>
+
+# Question 20
+
+run
+```
+kubectl config use-context dk8s
+```
+
+## all operations in this question should be performed in the earth namespace. Create a pod that has two containers. Both containers should run the kubegoldenguide/alpine-spin:1.0.0 image. The first container should run as user ID 1000, and the second container with user ID 2000. Both containers should use file system group ID 3000.
+
+# Question 22
+run
+```
+kubectl config use-context k8s
+```
+# Give me the pod name and namespace where the readiness probe failed.
+<details><Summary>Show Solution</Summary>
+<p>
+
+```
+k get po 
+```
+
+
+
+```
+```
+
+
 </p>
 </details>
